@@ -7,9 +7,11 @@ extends KinematicBody2D
 var move_speed = 300
 var velocity = Vector2()
 
+var size
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	size = get_viewport().size
 
 func get_input():
 	velocity = Vector2()
@@ -17,8 +19,23 @@ func get_input():
 	velocity.y += Input.get_action_strength("down") - Input.get_action_strength("up")
 	velocity = velocity.normalized() * move_speed
 
+func keep_in_bounds():
+	# keep player within y bounds
+	if position.y < 0:
+		position.y = 0
+	elif position.y > size.y: 
+		position.y = size.y
+	# screen wraps left-to-right
+	if position.x < 0:
+		position.x = size.x
+	elif position.x > size.x:
+		position.x = 0
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	# move the player
 	get_input()
 	move_and_slide(velocity)
+	keep_in_bounds()
+	
+	
