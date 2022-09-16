@@ -12,11 +12,18 @@ var size
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	size = get_viewport().size
+	$AnimatedSprite.playing = true
 
 func get_input():
 	velocity = Vector2()
 	velocity.x += Input.get_action_strength("right") - Input.get_action_strength("left")
 	velocity.y += Input.get_action_strength("down") - Input.get_action_strength("up")
+	if velocity.length() == 0:
+		$AnimatedSprite.animation = "rest"
+	else:
+		$AnimatedSprite.animation = "swim"
+		if velocity.x != 0:
+			$AnimatedSprite.flip_h = velocity.x > 0
 	velocity = velocity.normalized() * move_speed
 
 func keep_in_bounds():

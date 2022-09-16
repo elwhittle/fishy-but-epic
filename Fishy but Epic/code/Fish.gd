@@ -14,12 +14,12 @@ var pixels_wide
 func _ready():
 	v_size = get_viewport().size
 	move_right = true
+	$AnimatedSprite.flip_h = move_right
 	speed = 50
 	_scale = 1 # for now we just have big fish
 	var hitbox = $CollisionShape2D
 	pixels_wide = hitbox.shape.extents.x * _scale
-	
-	
+	$AnimatedSprite.playing = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -1,19 +1,36 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://code/player_move.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/Player1.png" type="Texture" id=2]
+[ext_resource path="res://assets/Player0.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 38.8155, 23.0898 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "rest",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "swim",
+"speed": 5.0
+} ]
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -0.013139 )
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 modulate = Color( 0.768627, 0.290196, 0.290196, 1 )
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 1.21875, 0.71875 )
-texture = ExtResource( 2 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 3, -4 )
+scale = Vector2( 7, 7 )
+frames = SubResource( 2 )
+animation = "rest"
