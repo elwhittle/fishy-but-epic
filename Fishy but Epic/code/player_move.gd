@@ -1,18 +1,8 @@
-extends KinematicBody2D
+extends Fish
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-var move_speed = 300
+# member variables
 var velocity = Vector2()
-
-var size
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	size = get_viewport().size
-	$AnimatedSprite.playing = true
 
 func get_input():
 	velocity = Vector2()
@@ -24,25 +14,32 @@ func get_input():
 		$AnimatedSprite.animation = "swim"
 		if velocity.x != 0:
 			$AnimatedSprite.flip_h = velocity.x > 0
-	velocity = velocity.normalized() * move_speed
+	velocity = velocity.normalized() * speed
 
 func keep_in_bounds():
 	# keep player within y bounds
 	if position.y < 0:
 		position.y = 0
-	elif position.y > size.y: 
-		position.y = size.y
+	elif position.y > v_size.y: 
+		position.y = v_size.y
 	# screen wraps left-to-right
 	if position.x < 0:
-		position.x = size.x
-	elif position.x > size.x:
+		position.x = v_size.x
+	elif position.x > v_size.x:
 		position.x = 0
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	# move the player
 	get_input()
-	move_and_slide(velocity)
+	position = position + velocity*_delta
 	keep_in_bounds()
-	
-	
+
+func _on_Player_area_entered(area):
+	if scale >= area.scale:
+		# eat the small guy
+		return
+	else:
+		die()
+
+func die():
+	print("dead")
