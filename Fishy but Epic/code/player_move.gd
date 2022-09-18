@@ -3,18 +3,32 @@ extends Fish
 
 # member variables
 var velocity = Vector2()
+var drag = .025
+var acceleration = .033
 
 func get_input():
-	velocity = Vector2()
-	velocity.x += Input.get_action_strength("right") - Input.get_action_strength("left")
-	velocity.y += Input.get_action_strength("down") - Input.get_action_strength("up")
-	if velocity.length() == 0:
+	var inputVec = Vector2()
+	inputVec.x += Input.get_action_strength("right") - Input.get_action_strength("left")
+	inputVec.y += Input.get_action_strength("down") - Input.get_action_strength("up")
+	if inputVec.length() == 0:
 		$AnimatedSprite.animation = "rest"
 	else:
 		$AnimatedSprite.animation = "swim"
-		if velocity.x != 0:
+		if inputVec.x != 0:
 			$AnimatedSprite.flip_h = velocity.x > 0
-	velocity = velocity.normalized() * speed
+	
+	velocity -= velocity * drag
+	velocity += inputVec * move_speed * acceleration
+	
+	if abs(velocity.x) < 5:
+		velocity.x = 0
+	if abs(velocity.y) < 5:
+		velocity.y = 0
+	
+	velocity = velocity.clamped(move_speed)
+	#var speed = velocity.length()
+	#velocity = velocity.normalized() * speed
+	print(velocity)
 
 func keep_in_bounds():
 	# keep player within y bounds
@@ -28,10 +42,10 @@ func keep_in_bounds():
 	elif position.x > v_size.x:
 		position.x = 0
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	# move the player
 	get_input()
-	position = position + velocity*_delta
+	position = position + velocity * delta
 	keep_in_bounds()
 
 func _on_Player_area_entered(area):

@@ -12,9 +12,9 @@ func _ready():
 func _physics_process(_delta):
 	# move the direction you're facing, Fish
 	if move_right:
-		position.x += speed * _delta
+		position.x += move_speed * _delta
 	else:
-		position.x -= speed * _delta
+		position.x -= move_speed * _delta
 	
 	# despawn when off screen
 	if (move_right and position.x > v_size.x + pixels_wide) \
