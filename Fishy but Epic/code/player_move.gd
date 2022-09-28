@@ -25,7 +25,7 @@ func get_input():
 	if abs(velocity.y) < 5:
 		velocity.y = 0
 	
-	velocity = velocity.clamped(move_speed)
+	velocity = velocity.limit_length(move_speed)
 	#var speed = velocity.length()
 	#velocity = velocity.normalized() * speed
 

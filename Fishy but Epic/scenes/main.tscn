@@ -1,12 +1,28 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://prefabs/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/Fish.tscn" type="PackedScene" id=2]
+[ext_resource path="res://code/enemy_spawner.gd" type="Script" id=3]
 
 [node name="FishyButEpic" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 500, 300 )
 
-[node name="Fish" parent="." instance=ExtResource( 2 )]
-position = Vector2( 115, 364 )
+[node name="enemySpawner" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Fish" parent="enemySpawner" instance=ExtResource( 2 )]
+position = Vector2( 1081, 109 )
+
+[node name="Fish2" parent="enemySpawner" instance=ExtResource( 2 )]
+position = Vector2( 1080, 174 )
+
+[node name="Fish5" parent="enemySpawner" instance=ExtResource( 2 )]
+position = Vector2( 1076, 375 )
+
+[node name="Fish3" parent="enemySpawner" instance=ExtResource( 2 )]
+position = Vector2( 1080, 241 )
+
+[node name="Fish4" parent="enemySpawner" instance=ExtResource( 2 )]
+position = Vector2( 1082, 310 )
