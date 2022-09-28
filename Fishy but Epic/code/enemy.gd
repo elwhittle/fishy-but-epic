@@ -1,13 +1,16 @@
 extends Fish
 
 var move_right
+var max_scale = 24.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	._ready()
 	move_right = true
 	$AnimatedSprite.flip_h = move_right
-	scale = Vector2(1.2, 1.2)
+	scale = _scale * Vector2(1, 1)
+	$AnimatedSprite.set_modulate(Color.from_hsv(_scale / max_scale, .6, 1.0))
+
 
 func _physics_process(_delta):
 	# move the direction you're facing, Fish

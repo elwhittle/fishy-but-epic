@@ -14,7 +14,7 @@ var pixels_wide
 func _ready():
 	v_size = get_viewport().size
 	move_speed = 200
-	_scale = 1 # for now we just have big fish
+	_scale = 4 # for now we just have big fish
 	var hitbox = $CollisionShape2D
 	pixels_wide = hitbox.shape.extents.x * _scale
 	$AnimatedSprite.playing = true

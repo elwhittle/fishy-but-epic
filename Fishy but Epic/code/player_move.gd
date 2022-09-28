@@ -28,7 +28,6 @@ func get_input():
 	velocity = velocity.clamped(move_speed)
 	#var speed = velocity.length()
 	#velocity = velocity.normalized() * speed
-	print(velocity)
 
 func keep_in_bounds():
 	# keep player within y bounds
