@@ -1,20 +1,20 @@
 extends Fish
 
 var move_right
-var max_scale = 3.0
 
 var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	._ready()
+	max_scale = 3.0
 	rng.randomize()
 	move_right = rng.randi_range(0, 1)
-
+	start_scale = 0
+	
 	# set size
-	_scale = rng.randf_range(0.05, max_scale)
-	var hitbox = $CollisionShape2D
-	pixels_wide = hitbox.shape.extents.x * _scale
-
+	#set_size(rng.randf_range(0.05, max_scale), rng.randf_range(0, 1))
+	set_size(rng.randf_range(0.05, max_scale), .6)
+	
 	# set side of screen based on movement direction
 	if move_right:
 		position.x = -pixels_wide/2
@@ -25,8 +25,6 @@ func _ready():
 	# set speed
 	move_speed = 60 * rng.randi_range(1, 4)
 	$AnimatedSprite.flip_h = move_right
-	scale = _scale * Vector2(1, 1)
-	$AnimatedSprite.set_modulate(Color.from_hsv(_scale / max_scale, .6, 1.0))
 
 
 func _physics_process(_delta):

@@ -3,8 +3,15 @@ extends Fish
 
 # member variables
 var velocity = Vector2()
-var drag = .025
-var acceleration = .033
+var drag = .015
+var acceleration = .03
+
+func _ready():
+	._ready()
+	move_speed = 350
+	start_scale = 0.5
+	max_scale = 20
+	set_size(start_scale)
 
 func get_input():
 	var inputVec = Vector2()
@@ -15,7 +22,7 @@ func get_input():
 	else:
 		$AnimatedSprite.animation = "swim"
 		if inputVec.x != 0:
-			$AnimatedSprite.flip_h = velocity.x > 0
+			$AnimatedSprite.flip_h = inputVec.x > 0
 	
 	velocity -= velocity * drag
 	velocity += inputVec * move_speed * acceleration
@@ -47,12 +54,20 @@ func _physics_process(delta):
 	position = position + velocity * delta
 	keep_in_bounds()
 
+func eat(meal):
+	var grow = meal.fish_scale * .1
+	meal.queue_free() # meal dies
+	.set_size(fish_scale + grow)
+	
 func _on_Player_area_entered(area):
 	if scale >= area.scale:
 		# eat the small guy
+		eat(area)
 		return
 	else:
 		die()
 
-func die():
+func die():	
 	print("dead")
+	get_tree().change_scene("res://scenes/main.tscn")
+	
