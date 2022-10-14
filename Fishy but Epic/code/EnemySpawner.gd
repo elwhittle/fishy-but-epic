@@ -2,8 +2,8 @@ extends Node
 
 var rng = RandomNumberGenerator.new()
 var spawn_chance
-#var base = 1.0
-var base = 1000000.0
+var base = 1.0
+#var base = 1000000.0
 
 func _ready():
 	rng.randomize()

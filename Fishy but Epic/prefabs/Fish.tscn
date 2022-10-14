@@ -1,29 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/Enemy0.png" type="Texture" id=1]
-[ext_resource path="res://code/enemy.gd" type="Script" id=2]
-[ext_resource path="res://assets/Enemy1.png" type="Texture" id=3]
+[ext_resource path="res://code/Enemy.gd" type="Script" id=2]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 1 ) ],
 "loop": true,
 "name": "swim",
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 43, 25 )
-
 [node name="Fish" type="Area2D"]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 3, -4 )
-scale = Vector2( 7, 7 )
 frames = SubResource( 2 )
 animation = "swim"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 1 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -29, 3, -29, -1, -24, -6, -6, -8, 16, -3, 29, -7, 26, 1, 29, 10, 17, 8, -6, 10, -17, 10, -25, 8 )

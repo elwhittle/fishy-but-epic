@@ -1,11 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://code/player_move.gd" type="Script" id=1]
+[ext_resource path="res://code/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Player1.png" type="Texture" id=2]
 [ext_resource path="res://assets/Player0.png" type="Texture" id=3]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 38.8155, 23.0898 )
+[ext_resource path="res://assets/ticket-muncher.wav" type="AudioStream" id=4]
+[ext_resource path="res://prefabs/PolyphonyPlayer.gd" type="Script" id=5]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -21,18 +20,19 @@ animations = [ {
 } ]
 
 [node name="Player" type="Area2D"]
-position = Vector2( 0, -0.013139 )
 script = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-modulate = Color( 0.768627, 0.290196, 0.290196, 1 )
-shape = SubResource( 1 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 3, -4 )
-scale = Vector2( 7, 7 )
 frames = SubResource( 2 )
 animation = "rest"
+offset = Vector2( 0.5, -0.5 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0.5, -0.5 )
+polygon = PoolVector2Array( -7, 0, -7, 3, -6, 3, -6, 4, 1, 4, 1, 3, 3, 3, 3, 2, 4, 2, 4, 3, 5, 3, 5, 4, 6, 4, 6, -2, 5, -2, 5, -1, 4, -1, 4, 0, 3, 0, 3, -1, 2, -1, 2, -2, 1, -2, 1, -3, -4, -3, -4, -1, -6, -1, -6, 0 )
+
+[node name="Muncher" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+script = ExtResource( 5 )
 
 [connection signal="area_entered" from="." to="." method="_on_Player_area_entered"]

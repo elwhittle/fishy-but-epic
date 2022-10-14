@@ -6,12 +6,18 @@ var velocity = Vector2()
 var drag = .015
 var acceleration = .03
 
+var munch_sound = preload("res://assets/ticket-muncher.wav")
+enum {SOUND_MUNCH}
+
 func _ready():
-	._ready()
 	move_speed = 350
-	start_scale = 0.5
+	start_scale = 2
 	max_scale = 20
-	set_size(start_scale)
+	total_pixels = 62
+	pixels_wide = 13
+	growth_points = scale_to_growth(start_scale)
+	
+	update_size()
 
 func get_input():
 	var inputVec = Vector2()
@@ -22,7 +28,10 @@ func get_input():
 	else:
 		$AnimatedSprite.animation = "swim"
 		if inputVec.x != 0:
-			$AnimatedSprite.flip_h = inputVec.x > 0
+			if inputVec.x > 0:
+				scale.x = -abs(scale.x)
+			else:
+				scale.x = abs(scale.x)
 	
 	velocity -= velocity * drag
 	velocity += inputVec * move_speed * acceleration
@@ -55,13 +64,15 @@ func _physics_process(delta):
 	keep_in_bounds()
 
 func eat(meal):
-	var grow = meal.fish_scale * .1
+	var growth = meal.growth_points * .25
 	meal.queue_free() # meal dies
-	.set_size(fish_scale + grow)
-	
+	growth_points += growth
+	update_size()
+	$Muncher.play()
+
 func _on_Player_area_entered(area):
-	if scale >= area.scale:
-		# eat the small guy
+	if growth_points >= area.growth_points:
+		# eat the small guy O< o
 		eat(area)
 		return
 	else:
@@ -69,5 +80,6 @@ func _on_Player_area_entered(area):
 
 func die():	
 	print("dead")
+	$Muncher.play()
 	get_tree().change_scene("res://scenes/main.tscn")
 	
